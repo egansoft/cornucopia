@@ -31,6 +31,10 @@
                         {
                             "xml": "<preference name=\"KeepRunning\" value=\"true\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Battery\"><param name=\"android-package\" value=\"org.apache.cordova.batterystatus.BatteryListener\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -64,6 +68,9 @@
             "PACKAGE_NAME": "com.ionicframework.cornucopia520699"
         },
         "de.appplant.cordova.plugin.background-mode": {
+            "PACKAGE_NAME": "com.ionicframework.cornucopia520699"
+        },
+        "cordova-plugin-battery-status": {
             "PACKAGE_NAME": "com.ionicframework.cornucopia520699"
         }
     },

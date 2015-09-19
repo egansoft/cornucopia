@@ -47,6 +47,13 @@ module.exports = [
             "cordova.plugins.backgroundMode",
             "plugin.backgroundMode"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-battery-status/www/battery.js",
+        "id": "cordova-plugin-battery-status.battery",
+        "clobbers": [
+            "navigator.battery"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -57,7 +64,8 @@ module.exports.metadata =
     "cordova-plugin-device": "1.0.1",
     "cordova-plugin-splashscreen": "2.1.0",
     "cordova-plugin-whitelist": "1.1.0",
-    "de.appplant.cordova.plugin.background-mode": "0.6.3"
+    "de.appplant.cordova.plugin.background-mode": "0.6.3",
+    "cordova-plugin-battery-status": "1.1.0"
 }
 // BOTTOM OF METADATA
 });
