@@ -69,11 +69,11 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
     })
 
-   .state('app.splashpage', {
-        url: '/home',
+   .state('app.map', {
+        url: '/map',
         views: {
             'menuContent': {
-                templateUrl: 'templates/splashpage.html'
+                templateUrl: 'templates/map.html'
             }
         }
     })
@@ -87,5 +87,5 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/splashpage');
+  $urlRouterProvider.otherwise('/app/map');
 });
