@@ -5,10 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
 
-
+Parse.initialize("pelE80NCz6F6CzySUtgXspDGXVEm6rA4MDThhLCM", "0OoJKprEh2IIxF81RlbwLZzHQjQqdMTLvOP0xVXT");
 var facebookApp = angular.module("starter", ["ionic", "ngCordova"]);
 angular.module('starter', ['ionic', 'starter.controllers'])
-
 
 .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -23,17 +22,20 @@ angular.module('starter', ['ionic', 'starter.controllers'])
             StatusBar.styleDefault();
         }
 
-        cordova.plugins.backgroundMode.enable()
-        window.addEventListener("batterystatus", onBatteryStatus, false);
+        // do these things only when we're on a device
+        if(window.cordova) {
+            cordova.plugins.backgroundMode.enable()
+            window.addEventListener("batterystatus", onBatteryStatus, false);
 
-        function onBatteryStatus(info) {
-            // Handle the online event
-            console.log("Level: " + info.level + " isPlugged: " + info.isPlugged);
-            if(info.level < 15 && !info.isPlugged) {
-                console.log("Level is low, we should do a request thing now")
-            }
-            if(info.level > 80 && !info.isPlugged || info.level > 95 && info.isPlugged) {
-                console.log("Level is high, we should say we're available")
+            function onBatteryStatus(info) {
+                // Handle the online event
+                console.log("Level: " + info.level + " isPlugged: " + info.isPlugged);
+                if(info.level < 15 && !info.isPlugged) {
+                    console.log("Level is low, we should do a request thing now")
+                }
+                if(info.level > 80 && !info.isPlugged || info.level > 95 && info.isPlugged) {
+                    console.log("Level is high, we should say we're available")
+                }
             }
         }
 

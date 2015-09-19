@@ -4,7 +4,11 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
+
+Parse.initialize("pelE80NCz6F6CzySUtgXspDGXVEm6rA4MDThhLCM", "0OoJKprEh2IIxF81RlbwLZzHQjQqdMTLvOP0xVXT");
+var facebookApp = angular.module("starter", ["ionic", "ngCordova"]);
 angular.module('starter', ['ionic', 'starter.controllers'])
+
 
 .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -52,6 +56,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         views: {
             'menuContent': {
                 templateUrl: 'templates/search.html'
+            }
+        }
+    })
+
+    .state('app.login', {
+        url: '/login',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/login.html'
             }
         }
     })
