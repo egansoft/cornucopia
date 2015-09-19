@@ -4,9 +4,42 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-
-Parse.initialize("pelE80NCz6F6CzySUtgXspDGXVEm6rA4MDThhLCM", "0OoJKprEh2IIxF81RlbwLZzHQjQqdMTLvOP0xVXT");
 var facebookApp = angular.module("starter", ["ionic", "ngCordova"]);
+Parse.initialize("pelE80NCz6F6CzySUtgXspDGXVEm6rA4MDThhLCM", "0OoJKprEh2IIxF81RlbwLZzHQjQqdMTLvOP0xVXT");
+
+facebookApp.controller("ProfileController", function($scope, $http, $localStorage, $location) {
+
+    $scope.init = function() {
+        if($localStorage.hasOwnProperty("accessToken") === true) {
+            $http.get("https://graph.facebook.com/v2.2/me", { params: { access_token: $localStorage.accessToken, fields: "id,name,gender,location,website,picture,relationship_status", format: "json" }}).then(function(result) {
+                $scope.profileData = result.data;
+            }, function(error) {
+                alert("There was a problem getting your profile.  Check the logs for details.");
+                console.log(error);
+            });
+        } else {
+            alert("Not signed in");
+            $location.path("/login");
+        }
+    };
+
+});
+
+facebookApp.controller("LoginController", function($scope, $cordovaOauth, $localStorage, $location) {
+
+    $scope.login = function() {
+        $cordovaOauth.facebook("CLIENT_ID_HERE", ["email", "read_stream", "user_website", "user_location", "user_relationships"]).then(function(result) {
+            $localStorage.accessToken = result.access_token;
+            $location.path("/profile");
+        }, function(error) {
+            alert("There was a problem signing in!  See the console for logs");
+            console.log(error);
+        });
+    };
+
+});
+
+
 angular.module('starter', ['ionic', 'starter.controllers'])
 
 .run(function($ionicPlatform) {
@@ -71,6 +104,22 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
     })
 
+  .state('app.profile', {
+        url: '/profile',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/profile.html'
+            }
+        }
+    })
+   .state('app.map', {
+        url: '/map',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/map.html'
+            }
+        }
+    })
   .state('app.single', {
     url: '/playlists/:playlistId',
     views: {
@@ -81,5 +130,5 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/login');
+  $urlRouterProvider.otherwise('/app/map');
 });
