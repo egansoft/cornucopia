@@ -69,6 +69,14 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
     })
 
+   .state('app.splashpage', {
+        url: '/home',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/splashpage.html'
+            }
+        }
+    })
   .state('app.single', {
     url: '/playlists/:playlistId',
     views: {
@@ -79,5 +87,5 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/login');
+  $urlRouterProvider.otherwise('/app/splashpage');
 });
