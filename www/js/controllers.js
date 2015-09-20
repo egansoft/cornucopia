@@ -42,26 +42,26 @@ angular.module('starter.controllers', ['ngOpenFB'])
 
   $scope.fbLogin = function () {
     ngFB.login({scope: 'email, public_profile'}).then(
-        function (response) {
-            if (response.status === 'connected') {
-                console.log('Facebook login succeeded');
-                $scope.closeLogin();
-            } else {
-                alert('Facebook login failed');
-            }
-        });
+      function (response) {
+        if (response.status === 'connected') {
+          console.log('Facebook login succeeded');
+          $scope.closeLogin();
+        } else {
+          alert('Facebook login failed');
+        }
+      });
   };
 
 })
 
 .controller('PlaylistsCtrl', function($scope) {
   $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
+  { title: 'Reggae', id: 1 },
+  { title: 'Chill', id: 2 },
+  { title: 'Dubstep', id: 3 },
+  { title: 'Indie', id: 4 },
+  { title: 'Rap', id: 5 },
+  { title: 'Cowbell', id: 6 }
   ];
 })
 
@@ -72,35 +72,71 @@ angular.module('starter.controllers', ['ngOpenFB'])
 })
 
 .controller('ProfileCtrl', function ($scope, ngFB) {
-    ngFB.api({
-        path: '/me',
-        params: {fields: 'id,name'}
-    }).then(
-        function (user) {
-            $scope.user = user;
-        },
-        function (error) {
-            alert('Facebook error: ' + error.error_description);
-        });
+  ngFB.api({
+    path: '/me',
+    params: {fields: 'id,name'}
+  }).then(
+  function (user) {
+    $scope.user = user;
+  },
+  function (error) {
+    alert('Facebook error: ' + error.error_description);
+  });
 })
 
 .controller('MapCtrl', function($scope, $state, $cordovaGeolocation) {
   var options = {timeout: 10000, enableHighAccuracy: true};
- 
+  
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
- 
+
     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
- 
+    
     var mapOptions = {
       center: latLng,
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
- 
+    
     $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
- 
+
+
+    //Wait until the map is loaded
+    google.maps.event.addListenerOnce($scope.map, 'idle', function(){
+
+      var marker = new google.maps.Marker({
+        map: $scope.map,
+        animation: google.maps.Animation.DROP,
+        position: latLng,
+        center: latLng,
+        zoom: 1
+      });      
+
+      var infoWindow = new google.maps.InfoWindow({
+        content: "You are located here"
+      });
+
+      google.maps.event.addListener(marker, 'click', function () {
+        infoWindow.open($scope.map, marker);
+      });
+
+    });
+
+    place_marker(39.256116, -76.710749);
+
   }, function(error){
     console.log("Could not get location");
   });
+
+  function place_marker(chargeLat, chargeLng) {
+    var positionVal = {lat: chargeLat, lng: chargeLng};
+
+    var marker = new google.maps.Marker({
+        map: $scope.map,
+        animation: google.maps.Animation.DROP,
+        position: positionVal,
+      });      
+  }
 });
+
+
 
