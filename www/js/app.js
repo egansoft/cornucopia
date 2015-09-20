@@ -80,7 +80,7 @@ var chargerAvail = function() {
     })
 }
 
-angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB'])
+angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB', 'ngCordova'])
 
 .run(function($ionicPlatform, ngFB) {
     ngFB.init({appId: '1100220343329968'});
@@ -167,7 +167,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB'])
         url: '/map',
         views: {
             'menuContent': {
-                templateUrl: 'templates/map.html'
+                templateUrl: 'templates/map.html',
+                controller: 'MapCtrl'
             }
         }
     })
