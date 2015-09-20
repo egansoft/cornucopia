@@ -66,7 +66,6 @@ angular.module('starter.controllers', ['ngOpenFB'])
 })
 
 .controller('LoginCtrl', function($scope) {
-    $scope.login()
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
