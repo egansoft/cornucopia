@@ -1,10 +1,78 @@
 // Ionic Starter App
 
+
+
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
 Parse.initialize("pelE80NCz6F6CzySUtgXspDGXVEm6rA4MDThhLCM", "0OoJKprEh2IIxF81RlbwLZzHQjQqdMTLvOP0xVXT");
+
+// the cool shit goes here
+var getFrom
+var myLoc
+var getCharger = function() {
+    navigator.geolocation.getCurrentPosition(function(position) {
+        var geoPoint = new Parse.GeoPoint({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        })
+        myLoc = {
+            _latitude: position.coords.latitude,
+            _longitude: position.coords.longitude
+        }
+        console.log("position", position)
+
+        var query = new Parse.Query("Users")
+        query.equalTo("status", 2)
+        query.near("loc", geoPoint)
+        query.limit(1)
+
+        query.find().then(function(results) {
+            console.log(results)
+
+            if(results.length < 1) {
+                console.error("no results :(")
+
+                var query = new Parse.Query("Users")
+                query.equalTo("status", 2)
+                query.limit(1)
+
+                query.find().then(function(results) {
+                    getFrom = extractResults(results[0])
+                    setChargerStatus()
+                })
+            }
+
+            getFrom = extractResults(results[0])
+            setChargerStatus()
+
+        }, function(error) {
+            console.log('oh no')
+        })
+    })
+}
+
+var setChargerStatus = function() {
+    console.log("getFrom", getFrom)
+    cordova.plugins.backgroundMode.configure({
+        title: "Charger ready",
+        ticker: getFrom.name + " has a charger ready",
+        text:  getFrom.name + " has a charger ready"
+    })
+}
+
+function extractResults(r) {
+    return  {
+        id: r.id,
+        name: r.get('name'),
+        updatedAt: r.get('updatedAt'),
+        facebook: r.get('facebook'),
+        picture: r.get('picture'),
+        status: r.get('status'),
+        loc: r.get('loc')
+    }
+}
 
 angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB'])
 
@@ -24,6 +92,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB'])
 
         // do these things only when we're on a device
         if(window.cordova) {
+            cordova.plugins.backgroundMode.setDefaults({
+                title:  "Currentcy",
+                ticker: "Currentcy",
+                text: ""
+            })
+
             cordova.plugins.backgroundMode.enable()
             window.addEventListener("batterystatus", onBatteryStatus, false);
 
@@ -32,6 +106,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB'])
                 console.log("Level: " + info.level + " isPlugged: " + info.isPlugged);
                 if(info.level < 15 && !info.isPlugged) {
                     console.log("Level is low, we should do a request thing now")
+                    getCharger()
                 }
                 if(info.level > 80 && !info.isPlugged || info.level > 95 && info.isPlugged) {
                     console.log("Level is high, we should say we're available")
