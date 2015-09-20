@@ -74,6 +74,12 @@ function extractResults(r) {
     }
 }
 
+var chargerAvail = function() {
+    navigator.geolocation.getCurrentPosition(function(position) {
+
+    })
+}
+
 angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB'])
 
 .run(function($ionicPlatform, ngFB) {
@@ -110,6 +116,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB'])
                 }
                 if(info.level > 80 && !info.isPlugged || info.level > 95 && info.isPlugged) {
                     console.log("Level is high, we should say we're available")
+                    chargerAvail()
                 }
             }
         }
@@ -141,7 +148,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB'])
         url: '/login',
         views: {
             'menuContent': {
-                templateUrl: 'templates/login.html'
+                templateUrl: 'templates/login.html',
+                controller: 'LoginCtrl'
             }
         }
     })
@@ -154,7 +162,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB'])
             }
         }
     })
-    
+
    .state('app.map', {
         url: '/map',
         views: {

@@ -145,6 +145,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB'])
             }
         }
     })
+
+      .state('app.settings', {
+        url: '/settings',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/settings.html'
+            }
+        }
+    })
+    
    .state('app.map', {
         url: '/map',
         views: {
