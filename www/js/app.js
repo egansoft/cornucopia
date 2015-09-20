@@ -6,10 +6,9 @@
 // 'starter.controllers' is found in controllers.js
 Parse.initialize("pelE80NCz6F6CzySUtgXspDGXVEm6rA4MDThhLCM", "0OoJKprEh2IIxF81RlbwLZzHQjQqdMTLvOP0xVXT");
 
-angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB'])
+angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
 
-.run(function($ionicPlatform, ngFB) {
-    ngFB.init({appId: '1100220343329968'});
+.run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
